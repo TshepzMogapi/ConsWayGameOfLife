@@ -1,0 +1,6 @@
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\bin\Debug\ConsWayGameOfLife.exe.config
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\bin\Debug\ConsWayGameOfLife.exe
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\bin\Debug\ConsWayGameOfLife.pdb
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\obj\Debug\ConsWayGameOfLife.csprojResolveAssemblyReference.cache
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\obj\Debug\ConsWayGameOfLife.exe
+c:\users\v-tsmoga\documents\visual studio 2017\Projects\ConsWayGameOfLife\ConsWayGameOfLife\obj\Debug\ConsWayGameOfLife.pdb
