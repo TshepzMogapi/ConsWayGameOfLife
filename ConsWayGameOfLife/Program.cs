@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GameOfLife
 {
@@ -27,116 +24,121 @@ namespace GameOfLife
 
         private static void PopulateGrid()
         {
-            for (int row = 0; row < height; row++)
+            Loop((row, column) =>
             {
-                for (int column = 0; column < width; column++)
-                {
-                    bool isAlive = random.Next(5) == 0;
-                    currentState[row, column] = isAlive;
-                }
-            }
+                bool isAlive = random.Next(5) == 0;
+                currentState[row, column] = isAlive;
+            });
         }
 
         private static void DisplayGrid()
         {
             Console.SetCursorPosition(0, 0);
             StringBuilder stringBuilder = new StringBuilder();
-            for (int row = 0; row < height; row++)
+            Loop((row, column) =>
             {
-                for (int column = 0; column < width; column++)
+                if (currentState[row, column])
                 {
-                    if (currentState[row, column])
-                    {
-                        stringBuilder.Append("*");
-                    }
-                    else
-                    {
-                        stringBuilder.Append(" ");
-                    }
+                    stringBuilder.Append("*");
                 }
-                stringBuilder.AppendLine();
-            }
+                else
+                {
+                    stringBuilder.Append(" ");
+                }
+
+                if (column == width - 1)
+                {
+                    stringBuilder.AppendLine();
+                }
+            });
+
             Console.Write(stringBuilder);
         }
 
         private static void ApplyRules()
         {
             bool[,] nextState = new bool[height, width];
-            int noOfNeighbours;
+            int NoOfNeighbours;
+            Loop((row, column) =>
+            {
+                NoOfNeighbours = 0;
+
+                var newRow = (row - 1 < 0) ? height - 1 : row - 1;
+                var newColumn = (column - 1 < 0) ? width - 1 : column - 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newColumn = column;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newColumn = (column + 1 > width - 1) ? 0 : column + 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newRow = row;
+                newColumn = (column - 1 < 0) ? width - 1 : column - 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newColumn = (column + 1 > width - 1) ? 0 : column + 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newRow = (row + 1 > height - 1) ? 0 : row + 1;
+                newColumn = (column - 1 < 0) ? width - 1 : column - 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newColumn = column;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                newColumn = (column + 1 > width - 1) ? 0 : column + 1;
+                if (currentState[newRow, newColumn])
+                {
+                    NoOfNeighbours++;
+                }
+
+                if (currentState[row, column] && (NoOfNeighbours < 2 || NoOfNeighbours > 3))
+                {
+                    nextState[row, column] = false;
+                }
+                else if (currentState[row, column] && (NoOfNeighbours == 2 || NoOfNeighbours == 3))
+                {
+                    nextState[row, column] = true;
+                }
+                else if (!currentState[row, column] && NoOfNeighbours == 3)
+                {
+                    nextState[row, column] = true;
+                }
+            });
+            currentState = nextState;
+        }
+
+        private static void Loop(Action<int, int> action)
+        {
             for (int row = 0; row < height; row++)
             {
                 for (int column = 0; column < width; column++)
                 {
-                    noOfNeighbours = 0;
-
-                    var newRow = (row - 1 < 0) ? height - 1 : row - 1;
-                    var newColumn = (column - 1 < 0) ? width - 1 : column - 1;
-
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newColumn = column;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newColumn = (column + 1 > width - 1) ? 0 : column + 1;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newRow = row;
-                    newColumn = (column - 1 < 0) ? width - 1 : column - 1;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newColumn = (column + 1 > width - 1) ? 0 : column + 1;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newRow = (row + 1 > height - 1) ? 0 : row + 1;
-                    newColumn = (column - 1 < 0) ? width - 1 : column - 1;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newColumn = column;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    newColumn = (column + 1 > width - 1) ? 0 : column + 1;
-                    if (currentState[newRow, newColumn])
-                    {
-                        noOfNeighbours++;
-                    }
-
-                    // Apply rules
-                    if (currentState[row, column] && (noOfNeighbours < 2 || noOfNeighbours > 3))
-                    {
-                        nextState[row, column] = false;
-                    }
-                    else if (currentState[row, column] && (noOfNeighbours == 2 || noOfNeighbours == 3))
-                    {
-                        nextState[row, column] = true;
-                    }
-                    else if (!currentState[row, column] && noOfNeighbours == 3)
-                    {
-                        nextState[row, column] = true;
-                    }
+                    action(row, column);
                 }
             }
-            currentState = nextState;
         }
     }
 }
